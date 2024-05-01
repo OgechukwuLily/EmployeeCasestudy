@@ -1,11 +1,10 @@
-
-
-select * from Data$
+overview>> Assignment
+This data was analyized using Microsoft Sql. The focus of this analysis was to understand the demographics of this firm and derive data insights based on the data returned.
 
 --Demographic Analysis
 select Gender, count(gender) from Data$
 group by gender
-
+B--
   Select [Full Name], Age,
 	case
 	  WHEN Age < 35 THEN 'Young'
@@ -13,7 +12,7 @@ group by gender
 	 ELSE 'Senior'
 	 End AS Age_catergory
 from Data$;
-
+C--
 select 
 	Case
 	When [Ethnicity] = 'Asian' then 'Asian'
@@ -144,28 +143,30 @@ order by Total_Employees desc;
 
 
 --Exit Analysis
+
 Select  
 	[Full Name], [Exit Date], 
       CASE 
-		when [Exit Date] is null then 'Exited'
-	  else 'Active'
+		when [Exit Date] is null then 'Active'
+	  else 'Exited'
 	End AS Employment_Status
 from Data$
 
---b.
+--b. Determine the average tenure for employees who have exited the company, categorizing them into 'short','Medium', and 'Long' tenures based on their duration with the company before exit.
 select
 [Full Name],[Hire Date],[Exit Date],
 	case
-	when dateDiff(day,[Hire Date],GetDate()) <'1993' AND [Exit Date] Is null then 'still Active'
-	when dateDiff(day,[Hire Date],[Exit Date]) < '2019' then 'less than 5 years'
-	when dateDiff(day,[Hire Date],[Exit Date]) between '2014' AND '2017' then'5-10 years' 
-	else 'more than 10 years'
+	when [Exit Date] Is null then 'still Active'
+	when dateDiff(day,[Hire Date],[Exit Date]) < '1899' then 'Short Tenure'
+	when dateDiff(day,[Hire Date],[Exit Date]) >= '2012' and datediff(day,[Hire Date],[Exit Date]) <= 2017 then 'Medium Tenure' 
+	else 'Long Tenure'
 	end as Tenure_category
 from Data$
 
 
 
 --Ethnicity and Age Analysis
+categorize employees by their ethnicity and age group, such as 'Asia - Young', 'Black-Mid-Aged','Causcasia - Senior' etc	
 select [Ethnicity], Age,
 	case
     When [Ethnicity] = 'Asian' then 'Asian'
@@ -183,7 +184,7 @@ Case
 From Data$
 group by [Ethnicity], Age
 
-
+b. Determine the Average salary for each ethnicity-age group combination
 Select
 	case
     When [Ethnicity] = 'Asian' then 'Asian'
